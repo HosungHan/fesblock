@@ -6,13 +6,11 @@ const keys = require('../config/keys');
 const User = mongoose.model('users'); //loading mongoose model class
 
 passport.serializeUser((user, done) => {
-	console.log('user.id:', user.id);
 	done(null, user.id); //몽고가 자동으로assign해준 id
 });
 
 passport.deserializeUser((id, done) => {
 	User.findById(id).then(user => {
-		console.log('user:', user);
 		done(null, user);
 	});
 });

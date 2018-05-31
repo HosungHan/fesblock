@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
-const { initialToken } = require('../config/params');
 const { Schema } = mongoose; //equal to const Schema = mongoose.Schema
 
 const userSchema = new Schema({
 	googleId: String,
-	token: { type: Number, default: initialToken }
+	token: { type: Number, default: 0 },
+	group: String,
+	name: String,
+	pic: String,
+	certification: { type: Boolean, default: false }
 });
 
 //create new collection, if it doesn't exist

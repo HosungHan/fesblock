@@ -3,14 +3,18 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
+const bodyParser = require('body-parser');
 //아무것도 반환하지 않기때문에 실행만
 require('./models/User'); //순서 중요함. 먼저 User에서 Model Class를 먼저 실행
+require('./models/FesMembers');
 require('./services/passport'); //그 후 User Instance 저장
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
 app.use(
 	cookieSession({
 		maxAge: 30 * 24 * 60 * 60 * 1000, //단위밀리세컨드 즉 30일
