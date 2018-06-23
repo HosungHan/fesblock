@@ -1,3 +1,5 @@
+//회원가입, 메일을 통한 fes회원 인증을 다룸
+
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
@@ -7,17 +9,22 @@ const fesAuthTemplate = require('../services/emailTemplates/fesAuthTemplate');
 const { initialToken } = require('../config/params');
 const requireLogin = require('../middlewares/requireLogin');
 
+const myToken = require('../ethereum/myToken');
+const web3 = require('../ethereum/web3');
+const { accounts } = require('../ethereum/accounts');
+
 module.exports = app => {
+	//테스트용
 	app.get('/', (req, res) => {
 		res.send(
 			`<html>
 				<div>
-					<form action="/api/fesauth" method="post">
-						<p>이름
-							<input type="text" name="name" />
+					<form action="/api/snippets/vote" method="post">
+						<p>snippetId
+							<input type="text" name="snippetId" />
 						</p>
-						<p>기수
-							<input type="text" name="group" />
+						<p>yes
+							<input type="text" name="yes" />
 						</p>
 						<input type="submit"/>
 					</form>
@@ -26,33 +33,59 @@ module.exports = app => {
 		);
 	});
 
+	//구글인증
 	app.get(
 		'/auth/google',
 		passport.authenticate('google', {
 			scope: ['profile', 'email']
 		})
 	);
+	//구글 인증완료후 콜백주소 및	redirect
+	app.get(
+		'/auth/google/callback',
+		passport.authenticate('google'),
+		(req, res) => {
+			res.redirect('/board');
+		}
+	);
 
-	app.get('/auth/google/callback', passport.authenticate('google'));
-
+	//로그아웃
 	app.get('/api/logout', (req, res) => {
 		req.logout();
-		res.send(req.user);
+		res.redirect('/');
 	});
 
+	//현재유저확인
 	app.get('/api/current_user', (req, res) => {
 		res.send(req.user);
 	});
 
+	//모든 인증완료 유저 목록
+	app.get('/api/all_users', async (req, res) => {
+		const allUsers = await User.find({ token: { $gte: 0 } });
+		res.send(allUsers);
+	});
+
+	//FES멤버 기수, 이름, 메일주소, 사진 받아오는 라우트
+	app.get('/api/fesmembers', (req, res) => {
+		FesMembers.find({}, '-_id', function(err, users) {
+			var userMap = [];
+
+			users.forEach(function(user) {
+				userMap.push(user);
+			});
+
+			res.send(userMap);
+		});
+	});
+
 	//FES유저 인증메일 보내는 라우트
 	app.post('/api/fesauth', requireLogin, async (req, res) => {
-		const { group, name } = req.body;
+		const { email } = req.body;
+		const { id } = await FesMembers.findOne({ email });
 
-		const { email, id } = await FesMembers.findOne({ group, name });
-
-		console.log(email);
 		const authMail = {
-			subject: '인증메일',
+			subject: 'FES 멤버 인증메일',
 			recipients: email
 		};
 
@@ -66,23 +99,45 @@ module.exports = app => {
 	});
 
 	//메일링크 클릭시 멤버 인증
+	//메일링크 클릭시 이미 로그인이 되어있다는 가정하에 인증 진행
 	app.get('/api/user/:userId', requireLogin, async (req, res) => {
 		const { group, name, pic } = await FesMembers.findById(req.params.userId);
 		console.log(req.user.id);
-
-		await User.findById(req.user.id, function(err, user) {
+		await User.findById(req.user.id, async function(err, user) {
 			if (user.certification === true)
-				return console.log('이미 등록된 유저입니다');
+				return res.send('이미 등록된 유저입니다');
 
+			const index = await User.count();
+			//유저 기수, 이름, 사진, 인증완료, 및 기본토큰수 셋팅
+			console.log('1-------------');
+			console.log(index);
 			user.set({
 				group,
 				name,
 				pic,
 				certification: true,
-				token: initialToken
+				token: initialToken,
+				address: accounts[index].address,
+				privateKey: accounts[index].privateKey
 			});
+			console.log(accounts[index]);
 			user.save();
+			await myToken.methods
+				.transfer(
+					accounts[index].address,
+					web3.utils.toWei(initialToken.toString(), 'ether')
+				)
+				.send({
+					gas: '3000000',
+					from: accounts[0].address
+				});
+			await web3.eth.sendTransaction({
+				from: accounts[0].address,
+				to: accounts[index].address,
+				value: web3.utils.toWei('0.01', 'ether')
+			});
 		});
-		res.send('userId:' + req.params.userId);
+
+		res.redirect('/');
 	});
 };

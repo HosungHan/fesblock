@@ -9,17 +9,24 @@
 	},
 	"scripts": {
 		"start": "node index.js",
-		"dev": "nodemon index.js"
+		"server": "nodemon index.js",
+		"client": "npm run start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
 		"body-parser": "^1.18.3",
+		"concurrently": "^3.5.1",
 		"cookie-session": "^2.0.0-beta.3",
 		"express": "^4.16.3",
+		"hdwallet-accounts": "0.0.1",
 		"mongoose": "^5.1.1",
+		"node-cron": "^1.2.1",
 		"passport": "^0.4.0",
 		"passport-google-oauth20": "^1.0.0",
-		"sendgrid": "^5.2.3"
+		"sendgrid": "^5.2.3",
+		"truffle-hdwallet-provider": "0.0.5",
+		"web3": "^1.0.0-beta.34"
 	}
 }

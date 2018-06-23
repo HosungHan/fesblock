@@ -13,6 +13,7 @@ const fesMembersSchema = new Schema({
 
 const FesMembers = mongoose.model('fesmembers', fesMembersSchema);
 
+// fes멤버정보는 처음 한번만 디비에 저장하면된다. 혹시 새로 올릴 필요가 있다면 아래 코드를 이용하자
 // if ('../config/fesMembersArray.txt') {
 // 	const data = fs.readFileSync('../config/fesMembersArray.txt', 'utf-8');
 // 	const arr = data.split(',,');

@@ -1,3 +1,7 @@
+//sendgrid 이용해서 메일 보내는 코드
+//recipients를 통해 복수의 메일을 받아와서 전송
+//사용법이 굉장히 복잡해서
+
 const sendgrid = require('sendgrid');
 const helper = sendgrid.mail;
 const keys = require('../config/keys');

@@ -1,3 +1,4 @@
+//몽구스 유저모델
 const mongoose = require('mongoose');
 const { Schema } = mongoose; //equal to const Schema = mongoose.Schema
 
@@ -7,7 +8,9 @@ const userSchema = new Schema({
 	group: String,
 	name: String,
 	pic: String,
-	certification: { type: Boolean, default: false }
+	certification: { type: Boolean, default: false },
+	address: String,
+	privateKey: String
 });
 
 //create new collection, if it doesn't exist
