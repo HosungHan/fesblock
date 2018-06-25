@@ -3,8 +3,15 @@ import {
 	FETCH_USER,
 	FETCH_FESMEMBERS,
 	FETCH_SNIPPETS,
-	FETCH_ALL_USERS
+	FETCH_ALL_USERS,
+	FETCH_CONTRACT
 } from './types';
+
+export const fetchContract = () => async dispatch => {
+	const res = await axios.get('/api/contract_address');
+
+	dispatch({ type: FETCH_CONTRACT, payload: res.data });
+};
 
 export const fetchUser = () => async dispatch => {
 	const res = await axios.get('/api/current_user');

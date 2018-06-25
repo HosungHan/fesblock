@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, NavItem } from 'react-materialize';
-import { contractAddress } from './params.js';
 
 class Header extends Component {
 	renderContent() {
@@ -32,7 +31,7 @@ class Header extends Component {
 						<NavItem
 							href={
 								'https://rinkeby.etherscan.io/token/' +
-								contractAddress +
+								this.props.contract +
 								'?a=' +
 								this.props.auth.address
 							}
@@ -54,8 +53,8 @@ class Header extends Component {
 		);
 	}
 }
-function mapStateToProps({ auth }) {
-	return { auth };
+function mapStateToProps({ auth, contract }) {
+	return { auth, contract };
 }
 //equal to
 // function mapStateToPros(state) {

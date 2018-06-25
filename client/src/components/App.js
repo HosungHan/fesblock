@@ -18,8 +18,8 @@ class App extends Component {
 		this.props.fetchUser();
 		this.props.fetchFesmembers();
 		this.props.fetchAllUsers();
+		this.props.fetchContract();
 	}
-
 	render() {
 		return (
 			<div>

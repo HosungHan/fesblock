@@ -1,5 +1,4 @@
 //회원가입, 메일을 통한 fes회원 인증을 다룸
-
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
@@ -8,10 +7,10 @@ const Mailer = require('../services/Mailer');
 const fesAuthTemplate = require('../services/emailTemplates/fesAuthTemplate');
 const { initialToken } = require('../config/params');
 const requireLogin = require('../middlewares/requireLogin');
-
 const myToken = require('../ethereum/myToken');
 const web3 = require('../ethereum/web3');
 const { accounts } = require('../ethereum/accounts');
+const keys = require('../config/keys');
 
 module.exports = app => {
 	//구글인증
@@ -41,9 +40,14 @@ module.exports = app => {
 		res.send(req.user);
 	});
 
+	//컨트렉트주소 확인
+	app.get('/api/contract_address', (req, res) => {
+		res.send(keys.contractAddress);
+	});
+
 	//모든 인증완료 유저 목록
 	app.get('/api/all_users', async (req, res) => {
-		const allUsers = await User.find({ token: { $gte: 0 } });
+		const allUsers = await User.find({ token: { $gte: 10 } });
 		res.send(allUsers);
 	});
 

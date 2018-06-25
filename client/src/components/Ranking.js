@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAllUsers } from '../actions';
 import { Col, Row, Card, CardTitle, Table } from 'react-materialize';
-import { contractAddress } from './params.js';
 import _ from 'lodash';
 
 class Ranking extends Component {
-	componentDidMount() {
-		this.props.fetchAllUsers();
-	}
-
 	renderCards() {
 		if (!this.props.user) {
 			return <div>로딩중</div>;
@@ -28,7 +22,7 @@ class Ranking extends Component {
 								<a
 									href={
 										'https://rinkeby.etherscan.io/token/' +
-										contractAddress +
+										this.props.contract +
 										'?a=' +
 										ranker.address
 									}
@@ -82,7 +76,7 @@ class Ranking extends Component {
 	}
 }
 
-function mapStateToProps({ user }) {
-	return { user };
+function mapStateToProps({ user, contract }) {
+	return { user, contract };
 }
-export default connect(mapStateToProps, { fetchAllUsers })(Ranking);
+export default connect(mapStateToProps)(Ranking);

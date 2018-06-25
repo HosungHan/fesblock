@@ -53,12 +53,12 @@ class Landing extends Component {
 							</div>
 						</div>
 						<div className="row center">
-							<Link
-								to={this.props.auth ? '/board' : '/auth/google'}
+							<a
+								href={this.props.auth ? '/board' : '/auth/google'}
 								className="btn-large waves-effect waves-light grey darken-4"
 							>
 								시작하기
-							</Link>
+							</a>
 						</div>
 						<br />
 						<br />
@@ -83,7 +83,7 @@ class Landing extends Component {
 							쓰거나 공유를하거나 좋아요를 누르는 참여자들에게 보상을 나눠주죠.
 							이 웹애플리케이션의 경우는 토큰 이코노미 모델 중 하나인 TCR (Token
 							Curated Registry) 모델에 기반하여 간단히 만들어 보았습니다. 적절한
-							보상의 설계를 통해 생태계에 참여하는 모든 유저들, ()여기서는 글을
+							보상의 설계를 통해 생태계에 참여하는 모든 유저들, (여기서는 글을
 							읽는 사람, 글을 쓰는 사람, 그리고 토큰을 보유한 사람들)이 모두
 							생태계 발전에 기여할 수 있도록 만드는 것이죠. TCR에대해 더
 							궁금하신 분은 이 글을 참고해주세요.
