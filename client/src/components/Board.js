@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SnippetList from './snippets/SnippetList';
-//import ChallengedSnippetList from './snippets/ChallengedSnippetList';
-//import { Tabs, Tab } from 'react-materialize';
 
 class Board extends Component {
 	renderButton() {
@@ -36,28 +34,6 @@ class Board extends Component {
 				</blockquote>
 				<SnippetList />
 				<div className="fixed-action-btn">{this.renderButton()}</div>
-
-				{/* <Tabs className="tab-demo z-depth-1">
-					<Tab title="글목록(클릭!)">
-						<blockquote style={{ margin: '10px 0 0 0' }}>
-							사진 클릭 시 내용이 보입니다
-						</blockquote>
-						<SnippetList />
-						<div className="fixed-action-btn">{this.renderButton()}</div>
-					</Tab>
-					<Tab title="퇴출 투표 중">
-						<blockquote style={{ margin: '10px 0 0 0' }}>
-							퇴출 신청된 목록입니다. 내가 투표한 쪽이 과반수일시 토큰을
-							보상받습니다
-						</blockquote>
-						<ChallengedSnippetList />
-					</Tab>
-					<Tab title="퇴출당한 글들">
-						<blockquote style={{ margin: '10px 0 0 0' }}>
-							퇴출 당한 쓰레기들입니다.
-						</blockquote>
-					</Tab>
-				</Tabs> */}
 			</div>
 		);
 	}

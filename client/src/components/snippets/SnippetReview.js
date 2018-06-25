@@ -6,7 +6,10 @@ import { withRouter } from 'react-router-dom';
 import { postingFee } from '../params.js';
 
 const SnippetReview = ({ onCancel, formValues, submitSnippet, history }) => {
-	console.log(formValues);
+	if (!formValues.subject) {
+		formValues.subject = 'fes';
+	}
+
 	return (
 		<div className="container">
 			<blockquote>제목을 확인해주세요</blockquote>

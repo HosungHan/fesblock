@@ -22,6 +22,7 @@ class SnippetList extends Component {
 										Math.floor(Math.random() * 50) +
 										1
 									}
+									alt="랜덤사진"
 								/>
 							</div>
 							<div className="card-content">

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAllUsers } from '../actions';
 import { Col, Row, Card, CardTitle, Table } from 'react-materialize';

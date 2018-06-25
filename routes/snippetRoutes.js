@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireFesAuth = require('../middlewares/requireFesAuth');
 const requireTokens = require('../middlewares/requireTokens');
-
-//이더리움네트워크에서 토큰 전송하는 함수
+//이더리움네트워크에서 토큰 전송하는 함수, 계정들, 토큰을 가지고있는 모든 계정 불러오기
 const tokenTransfer = require('../ethereum/tokenTransfer');
 const { accounts } = require('../ethereum/accounts');
 const defaultAccount = accounts[0];
+//자동 반복 도와주는 모듈
 var cron = require('node-cron');
 const {
 	postingFee,
@@ -131,12 +131,11 @@ module.exports = app => {
 				challengedSnippet.no++;
 				challengedSnippet.noVoters.push(req.user.id);
 			}
-			console.log(challengedSnippet);
 			try {
 				await challengedSnippet.save();
 				res.send('투표가 완료되었습니다');
 			} catch (err) {
-				res.send(422).send(err);
+				res.send(err);
 			}
 		}
 	);
@@ -209,7 +208,7 @@ module.exports = app => {
 		});
 	});
 
-	//매 시마다 게시글을 올린 유저들에게 코인을 공급
+	//매 시간마다 게시글을 올린 유저들에게 코인을 공급
 	cron.schedule('0 1-23 * * *', async () => {
 		const snippets = await Snippet.find({ isChallenged: false });
 		_.forEach(snippets, async snippet => {

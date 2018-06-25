@@ -6,10 +6,6 @@ import { Input, Row } from 'react-materialize';
 
 class SnippetForm extends Component {
 	renderSubject({ input }) {
-		if (!input.value) {
-			input.value = 'fes';
-		}
-		console.log(input);
 		return (
 			<div style={{ marginTop: '40px' }}>
 				<Input {...input} l={4} s={12} type="select" label="카테고리">
@@ -38,7 +34,7 @@ class SnippetForm extends Component {
 			<div>
 				<blockquote style={{ marginBottom: '0' }}>간단한 내용</blockquote>
 				<textarea
-					class="materialize-textarea"
+					className="materialize-textarea"
 					{...input}
 					l={12}
 					s={12}
@@ -53,7 +49,6 @@ class SnippetForm extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		return (
 			<div className="container">
 				<form onSubmit={this.props.handleSubmit(this.props.onSnippetSubmit)}>

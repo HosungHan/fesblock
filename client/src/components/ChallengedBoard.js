@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SnippetList from './snippets/SnippetList';
 import ChallengedSnippetList from './snippets/ChallengedSnippetList';
 
 class ChallengedBoard extends Component {

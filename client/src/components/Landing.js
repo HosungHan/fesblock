@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Parallax } from 'react-materialize';
+import { Link } from 'react-router-dom';
 
 class Landing extends Component {
 	render() {
@@ -17,7 +18,7 @@ class Landing extends Component {
 						</h1>
 						<div className="row center">
 							<h5 className="header white-text flow-text">
-								토큰 이코노미 기반의 짧은글 게시판
+								토큰 이코노미 기반 FES익명 게시판
 							</h5>
 							<h5 className="white-text">*이용방법</h5>
 							<div className="left-align white-text container">
@@ -28,8 +29,8 @@ class Landing extends Component {
 									확인해주세요)
 								</p>
 								<p>
-									4.인증 후 토큰이 지급되면 자유주제로 아무런 글이나 올릴 수
-									있습니다
+									4.인증 후 토큰이 지급되면 자유주제(익명)로 아무런 글이나 올릴
+									수 있습니다
 								</p>
 								<p>
 									5.글을 올리는데 약간의 토큰이 소모되며, 글이 목록에 올라가
@@ -47,24 +48,27 @@ class Landing extends Component {
 								</p>
 								<p>
 									8.보상 및 토큰 시스템에 대한 자세한 정보는{' '}
-									<a href="/details">여기</a>를 참고해주세요
+									<Link to="/details">여기</Link>를 참고해주세요
 								</p>
 							</div>
 						</div>
 						<div className="row center">
-							<a
-								href={this.props.auth ? '/board' : '/auth/google'}
+							<Link
+								to={this.props.auth ? '/board' : '/auth/google'}
 								className="btn-large waves-effect waves-light grey darken-4"
 							>
 								시작하기
-							</a>
+							</Link>
 						</div>
 						<br />
 						<br />
 					</div>
 
 					<div className="parallax">
-						<img src="https://www.coinannouncer.com/wp-content/uploads/2018/02/Pic.jpg" />
+						<img
+							src="https://www.coinannouncer.com/wp-content/uploads/2018/02/Pic.jpg"
+							alt="배경사진"
+						/>
 					</div>
 				</div>
 
@@ -86,10 +90,10 @@ class Landing extends Component {
 							<a href="https://medium.com/@ilovebagels/token-curated-registries-1-0-61a232f8dac7">
 								클릭!
 							</a>
-							<p>
-								문의사항, 건의사항, 문과생이 갑자기 개발을 어떻게 배웠는지
-								궁금하다 등등 자유롭게 질문해주세요 rtigerhan@gmail.com
-							</p>
+						</p>
+						<p>
+							문의사항, 건의사항, 문과생이 갑자기 개발을 어떻게 배웠는지
+							궁금하다 등등 자유롭게 질문해주세요 rtigerhan@gmail.com
 						</p>
 					</div>
 				</div>
@@ -102,8 +106,5 @@ class Landing extends Component {
 function mapStateToProps({ auth }) {
 	return { auth };
 }
-//equal to
-// function mapStateToPros(state) {
-// 	return { auth: state.auth };
-// }
+
 export default connect(mapStateToProps)(Landing);

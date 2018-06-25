@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Navbar, NavItem } from 'react-materialize';
 import { contractAddress } from './params.js';
 
-const brandColor = <span style={{ color: '#ffffff' }}>FES Block</span>;
-
 class Header extends Component {
 	renderContent() {
 		switch (this.props.auth) {
@@ -13,56 +11,36 @@ class Header extends Component {
 			case false:
 				return (
 					<div>
-						<NavItem>
-							<a href="/ranking">랭킹</a>
-						</NavItem>
-						<NavItem>
-							<a href="/auth/google">간편 로그인</a>
-						</NavItem>
+						<NavItem href="/ranking">랭킹</NavItem>
+						<NavItem href="/auth/google">간편 로그인</NavItem>
 					</div>
 				);
 			default:
 				if (this.props.auth.certification === false) {
 					return (
 						<div>
-							<NavItem>
-								<a href="/fesauth">FES회원인증</a>
-							</NavItem>
-							<NavItem>
-								<a href="/ranking">랭킹</a>
-							</NavItem>
-							<NavItem>
-								<a href="/api/logout">로그아웃</a>
-							</NavItem>
+							<NavItem href="/fesauth">FES회원인증</NavItem>
+							<NavItem href="/ranking">랭킹</NavItem>
+							<NavItem href="/api/logout">로그아웃</NavItem>
 						</div>
 					);
 				}
 				return (
 					<div>
-						<NavItem>
-							<a href="/board">게시판</a>
+						<NavItem href="/board">게시판</NavItem>
+						<NavItem href="/board/challenged">투표하기</NavItem>
+						<NavItem
+							href={
+								'https://rinkeby.etherscan.io/token/' +
+								contractAddress +
+								'?a=' +
+								this.props.auth.address
+							}
+						>
+							FES토큰: {this.props.auth.token}개
 						</NavItem>
-						<NavItem>
-							<a href="/board/challenged">투표하기</a>
-						</NavItem>
-						<NavItem>
-							<a
-								href={
-									'https://rinkeby.etherscan.io/token/' +
-									contractAddress +
-									'?a=' +
-									this.props.auth.address
-								}
-							>
-								FES토큰: {this.props.auth.token}개
-							</a>
-						</NavItem>
-						<NavItem>
-							<a href="/ranking">랭킹</a>
-						</NavItem>
-						<NavItem>
-							<a href="/api/logout">로그아웃</a>
-						</NavItem>
+						<NavItem href="/ranking">랭킹</NavItem>
+						<NavItem href="/api/logout">로그아웃</NavItem>
 					</div>
 				);
 		}
@@ -70,7 +48,7 @@ class Header extends Component {
 
 	render() {
 		return (
-			<Navbar className="Header grey darken-4" brand={brandColor} right>
+			<Navbar className="Header grey darken-4" brand="FES Block" right>
 				{this.renderContent()}
 			</Navbar>
 		);
