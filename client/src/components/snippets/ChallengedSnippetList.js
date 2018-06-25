@@ -10,7 +10,6 @@ class ChallengedSnippetList extends Component {
 		this.props.actions.fetchChallengedSnippets();
 	}
 	renderSnippets() {
-		console.log(this.props);
 		return this.props.snippets.map(snippet => {
 			var challengedTime = new Date(snippet.lastChallenged);
 			var currentTime = new Date();

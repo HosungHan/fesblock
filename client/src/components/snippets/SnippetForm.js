@@ -62,7 +62,9 @@ class SnippetForm extends Component {
 					<Row>
 						<Field type="text" name="title" component={this.renderTitle} />
 					</Row>
-					<Field type="text" name="body" component={this.renderBody} />
+					<Row>
+						<Field type="text" name="body" component={this.renderBody} />
+					</Row>
 					<Link to="/board" className="grey darken-4 btn-flat white-text">
 						Back
 					</Link>
