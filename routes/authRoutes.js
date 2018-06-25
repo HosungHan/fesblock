@@ -14,25 +14,6 @@ const web3 = require('../ethereum/web3');
 const { accounts } = require('../ethereum/accounts');
 
 module.exports = app => {
-	//테스트용
-	app.get('/', (req, res) => {
-		res.send(
-			`<html>
-				<div>
-					<form action="/api/snippets/vote" method="post">
-						<p>snippetId
-							<input type="text" name="snippetId" />
-						</p>
-						<p>yes
-							<input type="text" name="yes" />
-						</p>
-						<input type="submit"/>
-					</form>
-				</div>
-			</html>`
-		);
-	});
-
 	//구글인증
 	app.get(
 		'/auth/google',
