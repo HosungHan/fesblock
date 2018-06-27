@@ -66,6 +66,7 @@ module.exports = app => {
 
 	//FES유저 인증메일 보내는 라우트
 	app.post('/api/fesauth', requireLogin, async (req, res) => {
+		console.log('post 받았습니다');
 		const { email } = req.body;
 		const { id } = await FesMembers.findOne({ email });
 
@@ -79,6 +80,7 @@ module.exports = app => {
 			await mailer.send();
 			res.send(user);
 		} catch (err) {
+			console.log(err);
 			res.status(422);
 		}
 	});
@@ -94,8 +96,7 @@ module.exports = app => {
 
 			const index = await User.count();
 			//유저 기수, 이름, 사진, 인증완료, 및 기본토큰수 셋팅
-			console.log('1-------------');
-			console.log(index);
+
 			user.set({
 				group,
 				name,
@@ -105,7 +106,7 @@ module.exports = app => {
 				address: accounts[index].address,
 				privateKey: accounts[index].privateKey
 			});
-			console.log(accounts[index]);
+
 			user.save();
 			await myToken.methods
 				.transfer(

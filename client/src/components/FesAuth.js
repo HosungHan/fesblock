@@ -28,19 +28,19 @@ class FesAuth extends Component {
 						<Autocomplete
 							title="XX기 XXX 입력"
 							data={data}
-							onChange={(event, value) =>
-								this.setState({ email: emails[value] })
-							}
+							onChange={async (event, value) => {
+								await this.setState({ email: emails[value] });
+							}}
 						/>
 					</div>
 				);
 		}
 	}
-	sendEmail() {
+	sendEmail = () => {
 		axios
 			.post('/api/fesauth', { email: this.state.email })
-			.then(console.log('메일전송완료'));
-	}
+			.then(console.log(`${this.state.email}에게 메일전송완료`));
+	};
 	render() {
 		return (
 			<div className="center-align container">
@@ -52,21 +52,26 @@ class FesAuth extends Component {
 				<div className="container">
 					<Row>
 						<Col s={12} m={12} l={6} offset="m5">
-							<Toast
-								center
-								displayLength="50000"
-								toast={
-									this.state.email
-										? 'FES 홈페이지에 등록하신 메일(' +
-										  this.state.email +
-										  ')로 인증메일을 발송하였습니다. (스팸함 확인해주세요)'
-										: '본인을 선택해주세요'
-								}
+							<form
+								onSubmit={e => {
+									e.preventDefault();
+									this.sendEmail();
+								}}
 							>
-								<a onClick={this.sendEmail.bind(this)} className="white-text">
+								<Toast
+									center
+									displayLength="50000"
+									toast={
+										this.state.email
+											? 'FES 홈페이지에 등록하신 메일(' +
+											  this.state.email +
+											  ')로 인증메일을 발송하였습니다. (스팸함 확인해주세요)'
+											: '본인을 선택해주세요'
+									}
+								>
 									확인
-								</a>
-							</Toast>
+								</Toast>
+							</form>
 						</Col>
 					</Row>
 				</div>
