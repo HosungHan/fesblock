@@ -56,8 +56,5 @@ class Header extends Component {
 function mapStateToProps({ auth, contract }) {
 	return { auth, contract };
 }
-//equal to
-// function mapStateToPros(state) {
-// 	return { auth: state.auth };
-// }
+
 export default connect(mapStateToProps)(Header);

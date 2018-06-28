@@ -1,4 +1,4 @@
-//snippet목록을 받아와서 랜덤한 사진을 입혀 카드를 만듬
+//퇴출 신청을 진행하는 component
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { Col, Row, Input } from 'react-materialize';
 import { challengeFee, challengeReward } from '../params.js';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 
 class SnippetChallenge extends Component {
 	state = {
@@ -15,7 +14,7 @@ class SnippetChallenge extends Component {
 		reasonChallenged: ''
 	};
 	componentDidMount() {
-		this.props.actions.fetchSnippets();
+		this.props.fetchSnippets();
 		const currentSnippetId = _.replace(
 			this.props.location.pathname,
 			'/snippets/challenge/',
@@ -91,10 +90,7 @@ class SnippetChallenge extends Component {
 						</Link>
 						<button
 							onClick={() =>
-								this.props.actions.submitChallenge(
-									this.state,
-									this.props.history
-								)
+								this.props.submitChallenge(this.state, this.props.history)
 							}
 							type="submit"
 							className="teal btn-flat right white-text"
@@ -108,22 +104,10 @@ class SnippetChallenge extends Component {
 	}
 }
 
-// function mapStateToProps(state) {
-//   return { snippets: state.snippets}
-// }
 function mapStateToProps({ snippets }) {
 	return { snippets };
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		actions: {
-			fetchSnippets: bindActionCreators(fetchSnippets, dispatch),
-			submitChallenge: bindActionCreators(submitChallenge, dispatch)
-		}
-	};
-}
-
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(SnippetChallenge)
+	connect(mapStateToProps, { fetchSnippets, submitChallenge })(SnippetChallenge)
 );

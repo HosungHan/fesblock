@@ -1,11 +1,11 @@
 //snippet목록을 받아와서 랜덤한 사진을 입혀 카드를 만듬
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSnippets } from '../../actions';
 import { Col, Row } from 'react-materialize';
+import { fetchSnippets } from '../../actions';
 
 class SnippetList extends Component {
-	componentDidMount() {
+	componentWillMount() {
 		this.props.fetchSnippets();
 	}
 	renderSnippets() {
@@ -58,9 +58,6 @@ class SnippetList extends Component {
 	}
 }
 
-// function mapStateToProps(state) {
-//   return { snippets: state.snippets}
-// }
 function mapStateToProps({ snippets }) {
 	return { snippets };
 }

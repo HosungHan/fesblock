@@ -1,24 +1,22 @@
-//snippet목록을 받아와서 랜덤한 사진을 입혀 카드를 만듬
+//퇴출신청 당한 snippet목록을 받아와서 랜덤한 사진을 입혀 카드 생성
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchChallengedSnippets, vote } from '../../actions';
 import { Col, Row, Card, CardTitle } from 'react-materialize';
-import { bindActionCreators } from 'redux';
 
 class ChallengedSnippetList extends Component {
 	componentDidMount() {
-		this.props.actions.fetchChallengedSnippets();
+		this.props.fetchChallengedSnippets();
 	}
 	renderSnippets() {
 		return this.props.snippets.map(snippet => {
-			var challengedTime = new Date(snippet.lastChallenged);
-			var currentTime = new Date();
-			var remainingTime =
+			let challengedTime = new Date(snippet.lastChallenged);
+			let currentTime = new Date();
+			let remainingTime =
 				300 -
 				Math.floor(
 					(currentTime.getTime() - challengedTime.getTime()) / (1000 * 60)
 				);
-
 			return (
 				<div key={Math.random()}>
 					<Col l={6}>
@@ -36,16 +34,16 @@ class ChallengedSnippetList extends Component {
 								</CardTitle>
 							}
 							actions={[
-								<a onClick={() => this.props.actions.vote(snippet._id, 1, 0)}>
+								<a onClick={() => this.props.vote(snippet._id, 1, 0)}>
 									퇴출찬성
 								</a>,
-								<a onClick={() => this.props.actions.vote(snippet._id, 0, 1)}>
+								<a onClick={() => this.props.vote(snippet._id, 0, 1)}>
 									퇴출반대
 								</a>
 							]}
 						>
 							{snippet.body}
-							<blockquote style={{ margin: '0 0 0 0' }}>퇴출사유</blockquote>
+							<blockquote style={{ margin: '10px 0 0 0' }}>퇴출사유</blockquote>
 							{snippet.reasonChallenged}
 							<blockquote style={{ margin: '10px 0 0 0' }}>
 								투표종료까지 {remainingTime}분 남았습니다
@@ -65,24 +63,10 @@ class ChallengedSnippetList extends Component {
 	}
 }
 
-// function mapStateToProps(state) {
-//   return { snippets: state.snippets}
-// }
 function mapStateToProps({ snippets }) {
 	return { snippets };
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		actions: {
-			fetchChallengedSnippets: bindActionCreators(
-				fetchChallengedSnippets,
-				dispatch
-			),
-			vote: bindActionCreators(vote, dispatch)
-		}
-	};
-}
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(mapStateToProps, { fetchChallengedSnippets, vote })(
 	ChallengedSnippetList
 );
